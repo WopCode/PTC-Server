@@ -1,12 +1,9 @@
-module.exports = app => {
+import mongoose from "mongoose";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-    const mongoose = require('mongoose');
-    require("dotenv").config();
-
-    // mongodb conection
-    mongoose
-        .connect(process.env.MONGODB_URI)
-        .then(() => console.log("Conecction MONGODB"))
-        .catch((error) => console.error(error));
-
-};
+// mongodb conection
+export const mongodb = mongoose
+    .connect(process.env.MONGODB_URI)
+    .then(() => console.log("Conecction MONGODB"))
+    .catch((error) => console.error(error));
