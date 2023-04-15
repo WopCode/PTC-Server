@@ -1,51 +1,61 @@
 import { userSchema } from "../models/user.js";
 
 // create user
-export const createUser = (req, res) => {
-    const user = userSchema(req.body);
-    user.save()
-        .then((data) => res.json(data))
-        .catch((error) =>
-            res.status(500).json({
-                message: error,
-            })
-        );
+export const createUser = async (req, res) => {
+    try {
+        const user = userSchema(req.body);
+        const response = await user.save();
+        res.json(response);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
 };
 
 // get all user
-export const getAllUser = (req, res) => {
-    userSchema
-        .find()
-        .then((data) => res.json(data))
-        .catch((error) => res.status(500).json({ message: error }));
+export const getAllUser = async (req, res) => {
+    try {
+        const response = await userSchema.find({});
+        res.json(response);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
 };
 
 // get user
-export const getUser = (req, res) => {
-    const { id } = req.params;
-    userSchema
-        .findById(id)
-        .then((data) => res.json(data))
-        .catch((error) => res.status(500).json({ message: error }));
+export const getUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await userSchema.findById(id);
+        res.json(response);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
 };
 
 // update user
-export const updateUser = (req, res) => {
-    const { id } = req.params;
-    const { first_name, last_name, state } = req.body;
-    userSchema
-        .updateOne({ _id: id }, { $set: { first_name, last_name, state } })
-        .then((data) => res.json({ status: "Mofidicado" }))
-        .catch((error) => res.status(500).json({ message: error }));
+export const updateUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { first_name, last_name, state } = req.body;
+        const response = await userSchema.updateOne(
+            { _id: id },
+            { $set: { first_name, last_name, state } }
+        );
+        res.json(response);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
 };
 
 // delete user
-export const deleteUser = (req, res) => {
-    const { id } = req.params;
-    userSchema
-        .findByIdAndRemove(id)
-        .then((data) => res.json({ status: "Eliminado" }))
-        .catch((error) => res.status(500).json({ message: error }));
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const response = await userSchema.findByIdAndRemove(id);
+        res.json(response);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
 };
 
 // state user

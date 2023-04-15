@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import path from "path";
+import cors from "cors";
 import { fileURLToPath } from "url";
 import { mongodb } from "./database/database.js";
 import route from "./routes/route.js";
@@ -9,6 +10,10 @@ const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // middleware
+// app.use(cors({
+//     origin: 'http://localhost:3000/'
+// }))
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use("/api", route);
